@@ -1,17 +1,25 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These two functions are part of the second programming assignment
+## for the R programming language course. 
+## The functions allow the user to create a matrix object which can cache its inverse
 
 ## This function creates a special "matrix" object that can cache its inverse.
 
 makeCacheMatrix <- function(x = matrix()) {
-    m <- NULL
+    # initialize inverse to Null
+    inverse <- NULL
+    # for new data, set the x to the matrix 
+    # and initialize inverse to NULL
     set <- function(y) {
         x <<- y
-        m <<- NULL
+        inverse <<- NULL
     }
+    # retrieve the matrix
     get <- function() x
-    setinverse <- function(solve) m <<- solve
-    getinverse <- function() m
+    # calculate the inverse of the matrix 
+    setinverse <- function(solve) inverse <<- solve
+    # get the matrix 
+    getinverse <- function() inverse
+    # 
     list(set = set, get = get,
          setinverse = setinverse,
          getinverse = getinverse)
@@ -26,13 +34,17 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-    m <- x$getinverse()
-    if(!is.null(m)) {
+    inverse <- x$getinverse()
+    # if retrieved data is not Null, retrieve cached value
+    if(!is.null(inverse)) {
         message("getting cached data")
-        return(m)
+        return(inverse)
     }
+    # otherwise calculate inverse
     data <- x$get()
-    m <- solve(data, ...)
-    x$setinverse(m)
-    m
+    inverse <- solve(data, ...)
+    # set inverse in object
+    x$setinverse(inverse)
+    # return inverse matrix
+    inverse
 }
